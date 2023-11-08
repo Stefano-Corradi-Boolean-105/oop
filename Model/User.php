@@ -9,6 +9,9 @@ class User{
   private $email;
 
   public function __construct(string $_name, string $lastname, int $_age, Address $_address){
+    if(empty($_name) || empty($lastname) || empty($_age) ){
+      throw new Exception('Dati non completi');
+    }
     $this->name = $_name;
     $this->lastname = $lastname;
     $this->address = $_address;
@@ -21,7 +24,7 @@ class User{
     if($this->checkValidMail($email)){
       $this->email = $email;
     }else{
-      // ERROR
+      throw new Exception('L\'indirizzo email ' . $email . ' non è valido');
     }
   }
 
@@ -31,7 +34,7 @@ class User{
       $this->age = $_age;
       $this->setDiscount();
     }else{
-      // ERROR
+      throw new Exception('L\'età deve essere compresa tra 0 e 120');
     }   
   }
 
@@ -52,6 +55,10 @@ class User{
 
   public function getEmail(){
     return $this->email;
+  }
+
+  public function getUserInfo(){
+    return "Name: $this->name, Lastname: $this->lastname, Age: $this->age";
   }
 
 

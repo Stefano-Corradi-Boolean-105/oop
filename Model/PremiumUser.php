@@ -12,4 +12,9 @@ class PremiumUser extends User{
 
   }
 
+  public function getUserInfo(){
+    $user_info = parent::getUserInfo();
+    return $user_info. ", Membership: " .$this->membership->getMembershipDetail();
+  }
+
 }

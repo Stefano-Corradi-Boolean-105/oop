@@ -1,41 +1,44 @@
 <?php
 
-require_once __DIR__ . '/Model/Address.php';
-require_once __DIR__ . '/Model/User.php';
-require_once __DIR__ . '/Model/Employee.php';
-require_once __DIR__ . '/Model/Membership.php';
-require_once __DIR__ . '/Model/PremiumUser.php';
+try {
+  require_once __DIR__ . '/Model/Address.php';
+  require_once __DIR__ . '/Traits/Position.php';
+  require_once __DIR__ . '/Model/User.php';
+  require_once __DIR__ . '/Model/Employee.php';
+  require_once __DIR__ . '/Model/Membership.php';
+  require_once __DIR__ . '/Model/PremiumUser.php';
+  require_once __DIR__ . '/db/db.php';
+} catch (Exception $e) {
+  $error = $e->getMessage();
+} 
+
 
 // $ugo = new User('Ugo', 'de Ughi', new Address('Via dei Platani','Milano','20100') );
 // $ugo->setAge(80);
 // $ugo->address->street = 'Via dei Ciclamini';
 // $ugo->email = 'ugo@gmail.com';
 
-require_once __DIR__ . '/db/db.php';
 
 
 
-// $giuseppe = new Employee('Giuseppe','Verdi',80,new Address('Via del Conservatorio','Milano','20100'),1);
+// $giuseppe = new Employee('Giuseppe','Verdi',80,new Address('Via del Conservatorio','Milano','20100'),1, 45.456789, 9.123456);
+
 
 // $filippo = new User('Filippo','Bianchi',80,new Address('Via dela RSA ','Milano','20100'));
 
 // $martina =  new PremiumUser('Martina','de Martini',30,new Address('Via delle Martine','Roma','00100'), new Membership('Premium',100,'2023-11-07'));
 
 // var_dump($giuseppe);
+// var_dump($giuseppe->getPosition());
 // var_dump($filippo);
 // var_dump($martina);
 // var_dump($martina->membership->getMembershipDetail());
-
-
-
-
-
 
 // metodi e prprietà statiche
 // var_dump(Address::$country);
 // var_dump(User::sayHello('Ugo'));
 
-// die;
+ //die;
 
 ?>
 
@@ -51,6 +54,13 @@ require_once __DIR__ . '/db/db.php';
 <body>
 
 <div class="container my-5">
+
+<?php if(isset($error)):?>
+  <div class="alert alert-danger" role="alert">
+    <?php echo $error;?>
+  </div>
+
+<?php else: ?>
   <h1>Lista utenti</h1>
   <table class="table">
   <thead>
@@ -76,8 +86,18 @@ require_once __DIR__ . '/db/db.php';
       </tr>
     <?php endforeach;?>
 
+
   </tbody>
 </table>
+
+<ul class="list-group my-5">
+<?php foreach($users as $user): ?>
+  <li class="list-group-item"><?php echo get_class($user) ?> - <?php echo $user->getUserInfo() ?></li>
+<?php endforeach;?>
+</ul>
+
+<?php endif;?>
+
 </div>
   
 </body>
